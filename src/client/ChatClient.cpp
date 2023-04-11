@@ -76,17 +76,17 @@ private:
         inet_pton(AF_INET, "127.0.0.1", &server_address.sin_addr);
         
         // 소켓 생성
-        int client_fd = socket(AF_INET, SOCK_STREAM, 0);
-        if (client_fd == -1) {
+        int clientId = socket(AF_INET, SOCK_STREAM, 0);
+        if (clientId == -1) {
             cout << "Failed to create socket" << endl;
             return 0;
         }
         
         // 서버에 연결
-        if (connect(client_fd, (sockaddr*)&server_address, sizeof(server_address)) == -1) {
+        if (connect(clientId, (sockaddr*)&server_address, sizeof(server_address)) == -1) {
             cout << "Failed to connect to server" << endl;
             return 0;
         }
-        return client_fd;
+        return clientId;
     }
 };
