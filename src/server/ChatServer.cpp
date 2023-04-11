@@ -14,7 +14,7 @@ class ChatServerImpl : public ChatServer {
 public:
     ChatServerImpl(int port) {
         port = port;
-        server_fd = createSocket();
+        serverId = createSocket();
     }
 
     int start() override {
@@ -26,15 +26,15 @@ public:
 
             sockaddr_in client_address;
             socklen_t client_address_len = sizeof(client_address);
-            int client_fd = accept(server_fd, (sockaddr*)&client_address, &client_address_len);
-            if (client_fd == -1) {
+            int clientId = accept(serverId, (sockaddr*)&client_address, &client_address_len);
+            if (clientId == -1) {
                 cout << "Failed to accept client" << endl;
                 continue;
             }
-            clients.insert(client_fd);
+            clients.insert(clientId);
 
             // 새로운 클라이언트를 처리하는 스레드 생성
-            thread client_thread(handle_message, client_fd, ref(clients));
+            thread client_thread(handle_message, clientId, ref(clients));
             client_thread.detach();
         }
         stop();
@@ -42,49 +42,49 @@ public:
 
 
     void stop() override {
-        for (auto& client_fd : clients) {
-            close(client_fd);
+        for (auto& clientId : clients) {
+            close(clientId);
         }
-        close(server_fd);
+        close(serverId);
     }
 
 
 private:
     int port;
-    int server_fd;
+    int serverId;
     set<int> clients;
 
-    static void handle_message(int client_fd, set<int>& clients) {
-        for (auto& other_client_fd : clients) {
-            string message = "Client " + to_string(client_fd) + " has joined the chat.\n";
-            send(other_client_fd, message.c_str(), message.size(), 0);
+    static void handle_message(int clientId, set<int>& clients) {
+        for (auto& other_clientId : clients) {
+            string message = "Client " + to_string(clientId) + " has joined the chat.\n";
+            send(other_clientId, message.c_str(), message.size(), 0);
         }
 
         while (true) {
             char buffer[1024];
-            int bytes_received = recv(client_fd, buffer, sizeof(buffer), 0);
+            int bytes_received = recv(clientId, buffer, sizeof(buffer), 0);
             if (bytes_received == 0) {
-                for (auto& other_client_fd : clients) {
-                    string message = "Client " + to_string(client_fd) + " has left the chat.\n";
-                    send(other_client_fd, message.c_str(), message.size(), 0);
+                for (auto& other_clientId : clients) {
+                    string message = "Client " + to_string(clientId) + " has left the chat.\n";
+                    send(other_clientId, message.c_str(), message.size(), 0);
                 }
                 break;
             }
             string message = string(buffer, bytes_received);
-            for (auto& other_client_fd : clients) {
-                if (other_client_fd != client_fd) {
-                    send(other_client_fd, message.c_str(), message.size(), 0);
+            for (auto& other_clientId : clients) {
+                if (other_clientId != clientId) {
+                    send(other_clientId, message.c_str(), message.size(), 0);
                 }
             }
         }
-        clients.erase(client_fd);
-        close(client_fd);
+        clients.erase(clientId);
+        close(clientId);
     }
 
 
     int createSocket() {
-        int server_fd = socket(AF_INET, SOCK_STREAM, 0);
-        if (server_fd == -1) {
+        int serverId = socket(AF_INET, SOCK_STREAM, 0);
+        if (serverId == -1) {
             cout << "Failed to create socket" << endl;
             return -1;
         }
@@ -97,17 +97,17 @@ private:
         address.sin_port = htons(8080);
         
         // 소켓 바인드
-        if (::bind(server_fd, (sockaddr*)&address, sizeof(address)) == -1) {
+        if (::bind(serverId, (sockaddr*)&address, sizeof(address)) == -1) {
             cout << "Failed to bind socket" << endl;
             return -1;
         }
         
         // 소켓 대기
-        if (listen(server_fd, 10) == -1) {
+        if (listen(serverId, 10) == -1) {
             cout << "Failed to listen on socket" << endl;
             return -1;
         }
         
-        return server_fd;
+        return serverId;
     }
 };
