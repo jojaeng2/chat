@@ -1,0 +1,131 @@
+{
+    "ps_init": {
+        "scope": "cpp",
+        "prefix": "ps_init",
+        "body": [
+            "#include <bits/stdc++.h>",
+            "#define MINF 0x7f7f7f7f",
+            "#define INF 1000000000",
+            "#define MOD 1000000009",
+            "#define NUM 100010",
+            "#define X first",
+            "#define Y second",
+            "using namespace std;",
+            "typedef long long ll;",
+            "typedef pair<int, int> pii;",
+            "typedef pair<pii, int> piii;",
+            "typedef pair<ll, ll> pll;",
+            "",
+            "",
+            "",
+            "void init(){",
+            "\t$0",
+            "}",
+            "",
+            "",
+            "int main(){",
+            "\tios_base :: sync_with_stdio(false);",
+            "\tcin.tie(NULL);",
+            "\tcout.tie(NULL);",
+            "\tinit();",
+            "}",
+            "",
+        ],
+        "description": "PS initiate code"
+    },
+    
+    "leetps_init": {
+        "scope": "cpp",
+        "prefix": "leetcode_ps_init",
+        "body": [
+            "#include <iostream>",
+            "#include <vector>",
+            "#include <queue>",
+            "#include <algorithm>",
+            "#include <cstring>",
+            "#define fasti ios_base::sync_with_stdio(false); cin.tie(0);",
+            "#define fastio ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);",
+            "#define INF 1e9+7",
+            "#define pii pair<int, int>",
+            "",
+            "typedef long long ll;",
+            "// typedef pair<int, int> pii;",
+            "",
+            "using namespace std;",
+            "",
+            "",
+            "",
+            "void solve(){",
+            "\tSolution sol;",
+            "}",
+            "",
+            "int main(){",
+            "\tinput();",
+            "\tsolve();",
+            "\t",
+            "\treturn 0;",
+            "}",
+            "",
+        ],
+        "description": "LeetCode PS initiate code"
+    },
+    
+    "forloop_i": {
+        "scope": "cpp",
+        "prefix": "fori",
+        "body": [
+            "for(int i = 0; i < $0; i++){",
+            "\t",
+            "}"
+        ],
+        "description": "for loop(int i)"
+    },
+    
+    "forloop_j": {
+        "scope": "cpp",
+        "prefix": "forj",
+        "body": [
+            "for(int j = 0; j < $0; j++){",
+            "\t",
+            "}"
+        ],
+        "description": "for loop(int j)"
+    },
+    
+    "forloop_k": {
+        "scope": "cpp",
+        "prefix": "fork",
+        "body": [
+            "for(int k = 0; k < $0; k++){",
+            "\t",
+            "}"
+        ],
+        "description": "for loop(int k)"
+    },
+    
+    "forloop_ij": {
+        "scope": "cpp",
+        "prefix": "forij",
+        "body": [
+            "for(int i = 0; i < $0; i++){",
+            "\tfor(int j = 0; j < $0; j++){",
+            "\t\t",
+            "\t}",
+            "}"
+        ],
+        "description": "double for loop(int i, int j)"
+    },
+    
+    "forloop_rc": {
+        "scope": "cpp",
+        "prefix": "forrc",
+        "body": [
+            "for(int r = 0; r < $0; r++){",
+            "\tfor(int c = 0; c < ; c++){",
+            "\t\t",
+            "\t}",
+            "}"
+        ],
+        "description": "double for loop(int r, int c)"
+    }
+}
