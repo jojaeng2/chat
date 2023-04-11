@@ -19,9 +19,6 @@ public:
 
     int start() override {
         while (true) {
-            for (auto client : clients) {
-                cout << client << '\n';
-            }
             cout << "Clients size = " << clients.size() << '\n';
 
             sockaddr_in client_address;
