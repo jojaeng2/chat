@@ -15,22 +15,8 @@ public:
         clientId = createSocket(port);
     }
 
-    void handle_message(int client_id) {
-        while (true) {
-            char buffer[1024];
-            int bytes_received = recv(client_id, buffer, sizeof(buffer), 0);
-            if (bytes_received <= 0) {
-                cout << "Failed to receive data" << endl;
-                return;
-            }
-            
-            // 메시지 출력
-            cout << "Server: " << string(buffer, bytes_received) << endl;
-        }
-    }
-
     void start() {
-        thread client_thread(client_input, clientId);
+        thread client_thread(receiveMessage, clientId);
         client_thread.detach();
 
         // 채팅 시작
@@ -52,7 +38,7 @@ public:
 private:
     int clientId;
 
-    static void client_input(int cient_fd) {
+    static void receiveMessage(int cient_fd) {
     // 서버로부터 메시지 수신
         while (true) {
             char buffer[1024];
