@@ -2,7 +2,6 @@
 #define CHAT_CLIENT_SERVICE_H
 
 
-using namespace std;
 
 class ChatClient {
     public:
