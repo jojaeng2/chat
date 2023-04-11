@@ -58,7 +58,7 @@ private:
         sockaddr_in server_address;
         memset(&server_address, 0, sizeof(server_address));
         server_address.sin_family = AF_INET;
-        server_address.sin_port = htons(IP_PORTRANGE_HIGH);
+        server_address.sin_port = htons(port);
         inet_pton(AF_INET, "127.0.0.1", &server_address.sin_addr);
         
         // 소켓 생성
