@@ -2,6 +2,7 @@
 #include "ChatClient.cpp"
 
 int main() {
-    ChatClientImpl client = ChatClientImpl(8080);
-    client.start();
+    ChatClientImpl* client = new ChatClientImpl(8080);
+    client -> start();
+    delete client;
 }

@@ -3,6 +3,7 @@
 using namespace std;
 
 int main() {
-    ChatServerImpl server = ChatServerImpl(8080);
-    server.start();
+    ChatServerImpl* server = new ChatServerImpl(8080);
+    server -> start();
+    delete server;
 }
