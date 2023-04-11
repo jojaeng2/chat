@@ -1,5 +1,5 @@
-#include "src/server/ChatServer.h"
-#include "src/server/ChatServer.cpp"
+#include "ChatServer.h"
+#include "ChatServer.cpp"
 using namespace std;
 
 int main() {
