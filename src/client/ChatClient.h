@@ -6,7 +6,6 @@ using namespace std;
 
 class ChatClient {
     public:
-        virtual void handle_message(int client_id) = 0;
         virtual void start() = 0;
 };
 
