@@ -1,8 +1,7 @@
 #include "ChatClient.h"
 #include "ChatClient.cpp"
-using namespace std;
 
-int mian() {
+int main() {
     ChatClientImpl client = ChatClientImpl(8080);
     client.start();
 }
