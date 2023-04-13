@@ -3,13 +3,21 @@
 
 #include <set>
 #include <string>
+#include "../../src/db/ChatRepository.h"
 
 using namespace std;
 
 class ChatServer {
     public:
-        virtual int start() = 0;
-        virtual void stop() = 0;
+        ChatServer(int port, ChatRepository& chatRepository);
+        ChatServer(const ChatServer&) = delete;
+        void start();
+        void stop();
+    private:
+        int port;
+        int serverId;
+        set<int> clients;
+        ChatRepository& chatRepository;
 };
 
 #endif
