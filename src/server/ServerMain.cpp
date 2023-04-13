@@ -1,9 +1,18 @@
 #include "ChatServer.h"
-#include "ChatServer.cpp"
+#include "../../src/db/ChatRepository.h"
+#include <iostream>
 using namespace std;
 
+ChatRepository& initChatRepository() {
+    return *(new ChatRepository("chat"));
+}
+
 int main() {
-    ChatServerImpl* server = new ChatServerImpl(8080);
-    server -> start();
+    ChatRepository& chatRepository = initChatRepository();
+    ChatServer * server = new ChatServer(8080, chatRepository);
+    server->start();
+    chatRepository.close();
+    server -> stop();
+    delete &chatRepository; 
     delete server;
 }
