@@ -72,11 +72,9 @@ ChatServer::ChatServer(int port, ChatRepository& chatRepository): port(port), ch
 
 void ChatServer::start() {
     while (true) {
-        std::cout << clients.size() << " " << port << " " << serverId << '\n';
         sockaddr_in client_address;
         socklen_t client_address_len = sizeof(client_address);
         int clientId = accept(serverId, (sockaddr*)&client_address, &client_address_len);
-        cout << "clientId " << clientId << '\n';
         if (clientId == -1) {
             cout << "Failed to accept client" << endl;
             continue;
