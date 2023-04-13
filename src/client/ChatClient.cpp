@@ -8,71 +8,63 @@
 #include "ChatClient.h"
 using namespace std;
 
-class ChatClientImpl : public ChatClient {
-
-public:
-    ChatClientImpl(int port) {
-        clientId = createSocket(port);
+int createSocket(int port) {
+    // 서버 주소 설정
+    sockaddr_in server_address;
+    memset(&server_address, 0, sizeof(server_address));
+    server_address.sin_family = AF_INET;
+    server_address.sin_port = htons(port);
+    inet_pton(AF_INET, "127.0.0.1", &server_address.sin_addr);
+    
+    // 소켓 생성
+    int clientId = socket(AF_INET, SOCK_STREAM, 0);
+    if (clientId == -1) {
+        cout << "Failed to create socket" << endl;
+        return 0;
     }
-
-    void start() {
-        thread client_thread(receiveMessage, clientId);
-        client_thread.detach();
-
-        // 채팅 시작
-        while (true) {
-            // 메시지 입력
-            string message;
-            cin >> message;
-            // 메시지 전송
-            if (send(clientId, message.c_str(), message.size(), 0) == -1) {
-                cout << "Failed to send message" << endl;
-                break;
-            }
-        }
-
-        // 소켓 종료
-        close(clientId);
+    
+    // 서버에 연결
+    if (connect(clientId, (sockaddr*)&server_address, sizeof(server_address)) == -1) {
+        cout << "Failed to connect to server" << endl;
+        return 0;
     }
+    return clientId;
+}
 
-private:
-    int clientId;
+static void receiveMessage(int cient_fd) {
+    while (true) {
+        char buffer[1024];
+        int bytes_received = recv(cient_fd, buffer, sizeof(buffer), 0);
+        cout << "bytes_received" << bytes_received <<'\n';
+        if (bytes_received <= 0) {
+            cout << "Failed to receive data" << endl;
+            return;
+        }
+        // 메시지 출력
+        cout << "Server: " << string(buffer, bytes_received) << endl;
+    }
+}
 
-    static void receiveMessage(int cient_fd) {
-    // 서버로부터 메시지 수신
-        while (true) {
-            char buffer[1024];
-            int bytes_received = recv(cient_fd, buffer, sizeof(buffer), 0);
-            if (bytes_received <= 0) {
-                cout << "Failed to receive data" << endl;
-                return;
-            }
-            
-            // 메시지 출력
-            cout << "Server: " << string(buffer, bytes_received) << endl;
+ChatClient::ChatClient(int port) : port(port){
+    clientId = createSocket(port);
+}
+
+void ChatClient::start() {
+    thread client_thread(receiveMessage, clientId);
+    client_thread.detach();
+    // 채팅 시작
+    while (true) {
+        string message;
+        cout << 1 << '\n';
+        cin >> message;
+        // 메시지 전송
+        if (send(clientId, message.c_str(), message.size(), 0) == -1) {
+            cout << "Failed to send message" << endl;
+            break;
         }
     }
+}
 
-    int createSocket(int port) {
-        // 서버 주소 설정
-        sockaddr_in server_address;
-        memset(&server_address, 0, sizeof(server_address));
-        server_address.sin_family = AF_INET;
-        server_address.sin_port = htons(port);
-        inet_pton(AF_INET, "127.0.0.1", &server_address.sin_addr);
-        
-        // 소켓 생성
-        int clientId = socket(AF_INET, SOCK_STREAM, 0);
-        if (clientId == -1) {
-            cout << "Failed to create socket" << endl;
-            return 0;
-        }
-        
-        // 서버에 연결
-        if (connect(clientId, (sockaddr*)&server_address, sizeof(server_address)) == -1) {
-            cout << "Failed to connect to server" << endl;
-            return 0;
-        }
-        return clientId;
-    }
-};
+void ChatClient::stop() {
+    close(clientId);
+}
