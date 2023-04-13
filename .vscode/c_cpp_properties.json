@@ -3,7 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/usr/local/mysql-connector-c++-8.0.32/"
             ],
             "defines": [],
             "macFrameworkPath": [

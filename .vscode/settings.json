@@ -92,7 +92,8 @@
         "regex": "cpp",
         "scoped_allocator": "cpp",
         "thread": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "__verbose_abort": "cpp"
     },
     "C_Cpp.default.cppStandard": "c++20",
     "code-runner.runInTerminal": true,
