@@ -7,7 +7,7 @@ using namespace mysqlx;
 
 
 ChatRepository::ChatRepository(std::string tableName)
-    : session("localhost", "root", "hong971220!"), db(session.getSchema("test")), table(db.getTable(tableName))
+    : session("localhost", "root", ""), db(session.getSchema("test")), table(db.getTable(tableName))
 {}
 
 
