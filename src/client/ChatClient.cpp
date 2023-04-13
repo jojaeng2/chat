@@ -35,7 +35,6 @@ static void receiveMessage(int cient_fd) {
     while (true) {
         char buffer[1024];
         int bytes_received = recv(cient_fd, buffer, sizeof(buffer), 0);
-        cout << "bytes_received" << bytes_received <<'\n';
         if (bytes_received <= 0) {
             cout << "Failed to receive data" << endl;
             return;
@@ -55,7 +54,6 @@ void ChatClient::start() {
     // 채팅 시작
     while (true) {
         string message;
-        cout << 1 << '\n';
         cin >> message;
         // 메시지 전송
         if (send(clientId, message.c_str(), message.size(), 0) == -1) {
